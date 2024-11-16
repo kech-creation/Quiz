@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUIZ EHS Primark Grenoble</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Assurez-vous d'inclure jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+
+</head>
+<body>
+  <div class="quiz-container">
+
+    <!-- Etape 1: Titre de bienvenue -->
+    <div id="welcome-container" class="step-container">
+      <h1>Bienvenue dans le QUIZ EHS Primark Grenoble</h1>
+      <button id="start-button">Commencer le quiz</button>
+    </div>
+
+    <!-- Etape 2: Règles du quiz -->
+    <div id="rules-container" class="step-container" style="display: none;">
+      <h2>Règles du Quiz</h2>
+      <div class="rules-border"></div>
+      <ul>
+        <li>1. Tu as 15 secondes pour répondre à chaque question ⏱️</li>
+        <li>2. Tu peux avoir des questions à choix multiple ✔️</li>
+        <li>3. Après 15 secondes, la question suivante sera affichée 🕐</li>
+        <li>4. Tu ne peux pas quitter le quiz en plein parcours 🚶‍♂️</li>
+        <li>5. Chaque bonne réponse compte 1 point 🔥</li>
+      </ul>
+      <button id="continue-button">Continuer</button>
+      <button id="quit-button">Quitter le quiz</button>
+    </div>
+
+    <!-- Etape 3: Quiz avec chronomètre et questions -->
+    <div id="quiz-container" style="display: none;">
+      <div class="timer-container">
+        <div class="timer">
+          <span>Temps Restant</span>
+          <div class="time" id="time-left">15</div>
+        </div>
+      </div>
+      <h2 id="quiz-title">Quiz EHS <br>🔥Primark Grenoble🔥</h2>
+      <div id="question-container">
+        <h3 id="question-text">Question 1</h3>
+        <div id="options-container" class="options"></div>
+      </div>
+      <button id="next-button" disabled>Suivant</button>
+    </div>
+
+    <!-- Résultats -->
+    <div id="result-container" style="display: none;">
+        <h2 id="congratulations-message"></h2>
+        <p id="score"> 🌟</p>
+        <p id="total-time"></p>
+        <button id="restart-button">Recommencer</button>
+        <button id="share-score-button">Partager mon score</button>
+        <!-- Bouton Voir mes réponses -->
+<button id="view-answers-button" class="button-action">Voir mes réponses</button>
+        <div id="answers-view-container" style="display: none;"></div>
+        <!-- Bouton Télécharger en PDF -->
+<!--<button id="download-pdf-button" class="button-action">Télécharger en PDF</button>-->
+      </div>
+      
+     
+     
+    </div>
+
+    <div id="result-container" style="display:none;">
+        <!-- Message de félicitations dynamique -->
+        <h2 id="congratulations-message"></h2>
+      
+        <!-- Affichage du score final -->
+        <p id="score">Score : </p>
+        
+        <!-- Affichage du temps total -->
+        <p id="total-time"></p>
+      
+        <!-- Résultats détaillés pour chaque question -->
+        <div id="answers-container"></div>
+      </div>
+      
+
+  </div>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>
