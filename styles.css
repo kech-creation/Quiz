@@ -291,4 +291,8 @@ body {
       margin: 10px;
       font-size: 18px;
     }
+       #quit-button {
+     padding: 10px;
+     margin: 10px;
+      }
   }
