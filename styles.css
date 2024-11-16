@@ -288,6 +288,7 @@ body {
     .button-action, .download-pdf-button {
       width: 100%; /* Largeur complète pour petits écrans */
       padding: 15px;
+      margin: 10px;
       font-size: 18px;
     }
   }

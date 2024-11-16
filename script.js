@@ -7,10 +7,10 @@ const questions = [
       explanation: "Les chaussures de sécurité sont nécessaires." 
     },
     { 
-      question: "Que ne faut-il pas mélanger dans le compacteur ?", 
-      options: ["Plastique et carton", "Cartons uniquement", "Plastique uniquement", "Papier et verre"], 
-      correctIndex: [0], 
-      explanation: "Il faut éviter de mélanger ces matériaux." 
+      question: "Que ne faut-il pas mettre dans le compacteur ?", 
+      options: ["Plastique et carton", "cintres", "Plastique", "Papier"], 
+      correctIndex: [1,3], 
+      explanation: "Il faut mettre soit les cartons, soit les plastiques mais pas les deux à la fois !" 
     },
     { 
       question: "Quelle est la durée maximale d'utilisation d'un gerbeur électrique sans formation ?", 
@@ -158,31 +158,43 @@ function checkAnswerAndProceed() {
     let timeTaken = 15 - timeLeft; // Temps pris pour répondre
 
     if (question.selectedAnswers && question.selectedAnswers.length > 0) {
+        // Vérifier le nombre de réponses possibles
+        const totalPossibleAnswers = question.correctIndex.length;
+        let pointsPerAnswer = 1 / totalPossibleAnswers; // Calcul des points par bonne réponse
+
         // Vérifier si la réponse est correcte
         const isCorrect = question.correctIndex.every((index) =>
             question.selectedAnswers.includes(index)
         );
 
+        // Initialiser le score de la question
+        let questionScore = 0;
+
+        // Calcul du score en fonction du nombre de bonnes réponses
         if (isCorrect) {
-            // Ajouter 1 point pour une bonne réponse
-            score += 1;
+            // Calculer le score proportionnel en fonction du nombre de bonnes réponses
+            questionScore += pointsPerAnswer * question.selectedAnswers.length;
 
             // Bonus pour rapidité
             if (timeTaken <= 5) {
-                score += 0.5; // Bonus rapide
+                questionScore += 0.5; // Bonus rapide
             }
         }
-    }
 
-    // Passer à la question suivante ou afficher les résultats
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        displayQuestion();
-        document.getElementById('next-button').disabled = true; // Désactiver "Suivant"
-    } else {
-        showResults(); // Afficher les résultats finaux
+        // Ajouter le score de la question au score total
+        score += questionScore;
+
+        // Passer à la question suivante ou afficher les résultats
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+            document.getElementById('next-button').disabled = true; // Désactiver "Suivant"
+        } else {
+            showResults(); // Afficher les résultats finaux
+        }
     }
 }
+
 
   
 
@@ -289,8 +301,7 @@ document.getElementById('share-score-button').addEventListener('click', function
 
 
 
- // Affichage des réponses après le quiz
-// Affichage des réponses après le quiz
+ 
 // Affichage des réponses après le quiz
 document.getElementById('view-answers-button').addEventListener('click', function () {
     const answersViewContainer = document.getElementById('answers-view-container');
