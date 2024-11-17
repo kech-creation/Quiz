@@ -169,6 +169,7 @@ body {
   .rules-container {
     text-align: left; /* Aligning text to the left */
     padding: 10px 20px;
+    
   }
   
   .rules-border {
@@ -180,10 +181,12 @@ body {
   ul {
     list-style: none;
     padding-left: 0;
+    text-align: start;
   }
   
   ul li {
     padding: 8px 0;
+    
   }
   
   /* Reste inchangé */
@@ -254,14 +257,24 @@ body {
   /* Animations élégantes au chargement */
   @keyframes fadeIn {
     from {
-      opacity: 0;
+      opacity: 0; /* Faible déplacement au démarrage pour le fondu */
       transform: translateY(20px);
+    
+      
     }
     to {
-      opacity: 1;
+      opacity: 1; /* Retour à la position initiale */
       transform: translateY(0);
+
+  
+     
     }
+    
   }
+  /* Classe appliquée pour l'animation */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+ }
   
   .button-action, .download-pdf-button {
     background-color: #007bff; /* Couleur bleue */
@@ -283,22 +296,81 @@ body {
   .button-action:active,.download-pdf-button:active {
     transform: scale(0.9); /* Réduction légère au clic */
   }
+
+/* Animation de fondu pour les questions */
+@keyframes fadeInQuestion {
+  from {
+    opacity: 0;
+    transform: translateY(20px);  /* Légèrement déplacé vers le bas au début */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);  /* Position finale */
+  }
+}
+
+/* Classe appliquée pour l'animation des questions */
+#question-container {
+  animation: fadeInQuestion 0.5s ease-out forwards;  /* Animation au moment de l'affichage */
+}
+
+/* Container de la barre */
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0; /* Gris clair */
+  border-radius: 10px;
+  overflow: hidden;
+  height: 20px;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  margin-bottom: 20px;
+}
+
+/* Barre de progression */
+.progress {
+  width: 0%; /* Initialement vide */
+  height: 100%;
+  background-color: #007bff; /* Bleu harmonisé */
+  transition: width 0.5s ease-in-out; /* Animation fluide */
+  
+}
+
+
+
+
   /* Ajustement pour alignement mobile */
   @media screen and (max-width: 600px) {
     .button-action, .download-pdf-button {
       width: 100%; /* Largeur complète pour petits écrans */
+      max-width: 500px; /* Limite à 500px sur les petits écrans pour ne pas paraître trop grand */
       padding: 15px;
       margin: 10px;
       font-size: 18px;
     }
-       #quit-button {
+
+    #quit-button {
      padding: 10px;
      margin: 10px;
       }
-       #continue-button{
+
+    #continue-button{
         padding: 10px;
         margin: 10px;
 
     }
+   #quiz-title{
+      font-size: 24px;
+    }
+    .quiz-container {
+      width: 100%; /* Utilise toute la largeur de l'écran */
+      max-width: 500px; /* Limite à 500px sur les petits écrans pour ne pas paraître trop grand */
   }
+  #start-button, #continue-button, #quit-button, #next-button, #restart-button {
+    padding: 10px 20px; /* Moins de padding pour une meilleure ergonomie */
+    font-size: 1rem; /* Réduction de la taille de la police */
+}
+
+h1, h2, h3 {
+    font-size: 1.5rem; /* Réduit la taille des titres */
+}
   }

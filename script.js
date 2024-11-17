@@ -39,6 +39,8 @@ const questions = [
   let timeLeft = 15; // Temps de départ pour le chrono
   let timer; // Variable pour stocker l'intervalle du chronomètre
   let canProceed = false; // Pour vérifier si l'utilisateur peut passer à la question suivante
+  const totalQuestions = questions.length; // Mettre à jour avec le nombre total de questions (par exemple, 5)
+  
   
   // Démarrer le quiz lorsque l'utilisateur clique sur "Démarrer"
   document.getElementById('start-button').addEventListener('click', startQuiz);
@@ -89,7 +91,14 @@ const questions = [
     // Désactiver le bouton "Suivant" tant qu'une réponse n'est pas donnée
     document.getElementById('next-button').disabled = true;
     canProceed = false; // On ne peut pas passer à la question suivante tant qu'il n'y a pas de réponse
+
+    // Calculer la progression en pourcentage (dynamique) en fonction de la question actuelle
+  let progressPercentage = (currentQuestionIndex / questions.length) * 100;
+    // Mettre à jour la barre de progression
+    updateProgressBar(progressPercentage);
+   
   }
+
   
 
 
@@ -170,10 +179,12 @@ function checkAnswerAndProceed() {
         // Initialiser le score de la question
         let questionScore = 0;
 
+        
+
         // Calcul du score en fonction du nombre de bonnes réponses
         if (isCorrect) {
             // Calculer le score proportionnel en fonction du nombre de bonnes réponses
-            questionScore += pointsPerAnswer * question.selectedAnswers.length;
+            questionScore = pointsPerAnswer * question.selectedAnswers.length;
 
             // Bonus pour rapidité
             if (timeTaken <= 5) {
@@ -191,8 +202,19 @@ function checkAnswerAndProceed() {
             document.getElementById('next-button').disabled = true; // Désactiver "Suivant"
         } else {
             showResults(); // Afficher les résultats finaux
+            endQuiz()
         }
-    }
+
+    }else {
+      // Si aucune réponse n'est donnée, ne pas ajouter de point
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+          displayQuestion();
+      } else {
+          showResults(); // Afficher les résultats finaux
+          endQuiz()
+      }
+  }
 }
 
 
@@ -204,15 +226,7 @@ function checkAnswerAndProceed() {
 
 
 
-
-
-
-
-
-
-
-  // Fonction pour afficher les résultats
-  // Afficher les résultats avec un message personnalisé
+  // Fonction pour Afficher les résultats avec un message personnalisé
   function showResults() {
     // Cacher le quiz
     document.getElementById('quiz-container').style.display = 'none';
@@ -238,6 +252,9 @@ function checkAnswerAndProceed() {
 
     // Assurez-vous que la page des réponses ne soit pas déjà affichée par défaut
     document.getElementById('answers-view-container').style.display = 'none';
+
+    // Appeler endQuiz pour afficher le bouton "Quitter"
+    endQuiz();
 }
 
   
@@ -466,14 +483,100 @@ function downloadAnswersAsPDF() {
   }
   
   
-  
- // envoyer un mail à EHS pour donner son avis 
-  document.getElementById('quit-button').addEventListener('click', function() {
-    // Construire l'URL mailto avec les détails
-    const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
+
+
+
+  // Fonction pour terminer le quiz
+  function endQuiz() {
+    // Cacher le conteneur du quiz
+    document.getElementById('quiz-container').style.display = 'none';
+
+    // Afficher le conteneur des résultats
+    const resultContainer = document.getElementById('result-container');
+    resultContainer.style.display = 'block';
+
+    // Déplacer le bouton Quitter vers le conteneur des résultats
+    const quitButton = document.getElementById('quit-button');
+    if (quitButton) {
+        // Supprimer le bouton de son ancien parent s'il y est encore
+        quitButton.style.display = 'inline-block'; // Rendre le bouton visible
+        resultContainer.appendChild(quitButton); // Le placer dans le conteneur des résultats
+    } else {
+        console.error("Bouton Quitter introuvable !");
+    }
+
+    // Ajouter l'événement de clic au bouton (si pas déjà ajouté)
+    quitButton.addEventListener('click', function () {
+        const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
+        window.location.href = mailtoLink;
+    });
+
+}
+
+
+
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var rulesContainer = document.getElementById('rules-container');
     
-    // Rediriger l'utilisateur vers l'email
-    window.location.href = mailtoLink;
+    // Ajoutez la classe fade-in pour appliquer l'animation de fondu
+    rulesContainer.classList.add('fade-in');
+  
+    // Utilisez un setTimeout pour afficher l'élément après que l'animation ait commencé
+    setTimeout(function () {
+      rulesContainer.classList.add('visible');  // Ajouter la classe "visible" pour rendre l'élément visible
+    }, 500); // 500 ms : le temps d'animation de fadeIn
   });
   
+
+// Désactiver toutes les options après la sélection d'une réponse
+function disableOptions() {
+  const options = document.querySelectorAll('.options label');
+  options.forEach(option => {
+    option.removeEventListener('click', selectAnswer);
+    option.classList.add('disabled'); // Ajoute un style pour montrer qu'elles sont désactivées
+  });
+}
+
+
+
+function updateProgressBar(targetValue) {
+  // Validation de la valeur entre 0 et 100
+  if (targetValue < 0) targetValue = 0;
+  if (targetValue > 100) targetValue = 100;
+
+  const progressBar = document.getElementById("progress");
+  const progressBarContainer = document.querySelector(".progress-bar");
+
+  // La valeur actuelle de la progression (initialisée à 0 ou à la largeur actuelle de la barre)
+  let currentValue = parseInt(progressBar.style.width) || 0;
+
+  // Utilisation d'un intervalle pour animer la barre de progression
+  const interval = setInterval(() => {
+    // Si la valeur actuelle est inférieure à la valeur cible, incrémenter
+    if (currentValue < targetValue) {
+      currentValue++; // Incrémenter la valeur
+    } 
+    // Si la valeur actuelle est supérieure à la valeur cible, décrémenter
+    else if (currentValue > targetValue) {
+      currentValue--; // Décrémenter la valeur
+    }
+
+    // Mise à jour de la largeur de la barre de progression
+    progressBar.style.width = currentValue + "%";
+
+    // Mise à jour de l'attribut aria-valuenow pour l'accessibilité
+    progressBarContainer.setAttribute("aria-valuenow", currentValue);
+
+    // Si la valeur cible est atteinte, arrêter l'intervalle
+    if (currentValue === targetValue) {
+      clearInterval(interval);
+    }
+  }, 10); // Actualiser toutes les 10ms pour une animation fluide
+}
+
+
+
+
 
