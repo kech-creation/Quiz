@@ -382,4 +382,7 @@ h1, h2, h3 {
       position: relative;
       margin: auto;
     }
+    h1, h2, h3 {
+      font-size: 14px; /* Réduit la taille des titres */
+  }
   }
