@@ -373,23 +373,13 @@ body {
 h1, h2, h3 {
     font-size: 1.5rem; /* Réduit la taille des titres */
 }
-.progress-bar {
-  width: 100%;
-  background-color: #e0e0e0; /* Gris clair */
-  border-radius: 10px;
-  overflow: hidden;
-  height: 5px;
-  position: relative;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
-  margin-bottom: 10px;
-}
 
-/* Barre de progression */
-.progress {
-  width: 0%; /* Initialement vide */
-  height: 100%;
-  background-color: #007bff; /* Bleu harmonisé */
-  transition: width 0.5s ease-in-out; /* Animation fluide */
-  
-}
+  }
+
+  @media (max-width: 768px) {
+    #quit-button {
+      display: block !important;
+      position: relative;
+      margin: auto;
+    }
   }
