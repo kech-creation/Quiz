@@ -40,7 +40,8 @@ const questions = [
   let timer; // Variable pour stocker l'intervalle du chronomètre
   let canProceed = false; // Pour vérifier si l'utilisateur peut passer à la question suivante
   const totalQuestions = questions.length; // Mettre à jour avec le nombre total de questions (par exemple, 5)
-  
+// Déclarez un chrono global qui commence au début du quiz
+let totalStartTime = Date.now(); // Temps de début du quiz  
   
   // Démarrer le quiz lorsque l'utilisateur clique sur "Démarrer"
   document.getElementById('start-button').addEventListener('click', startQuiz);
@@ -155,17 +156,16 @@ const questions = [
 
   
 
-
-
-
-
-
- 
 // Fonction pour vérifier la réponse et passer à la question suivante
 function checkAnswerAndProceed() {
+ 
     let question = questions[currentQuestionIndex];
     let timeTaken = 15 - timeLeft; // Temps pris pour répondre
 
+        // Ajouter le temps pris pour cette question au temps total
+       totalTimeTaken += timeTaken;  // Accumuler le temps total
+
+       
     if (question.selectedAnswers && question.selectedAnswers.length > 0) {
         // Vérifier le nombre de réponses possibles
         const totalPossibleAnswers = question.correctIndex.length;
@@ -187,7 +187,7 @@ function checkAnswerAndProceed() {
             questionScore = pointsPerAnswer * question.selectedAnswers.length;
 
             // Bonus pour rapidité
-            if (timeTaken <= 5) {
+            if (timeTaken <= 2) {
                 questionScore += 0.5; // Bonus rapide
             }
         }
@@ -203,6 +203,7 @@ function checkAnswerAndProceed() {
         } else {
             showResults(); // Afficher les résultats finaux
             endQuiz()
+            
         }
 
     }else {
@@ -219,12 +220,6 @@ function checkAnswerAndProceed() {
 
 
   
-
-
-
-
-
-
 
   // Fonction pour Afficher les résultats avec un message personnalisé
   function showResults() {
@@ -244,20 +239,22 @@ function checkAnswerAndProceed() {
         message = "💪 Courage ! La prochaine fois sera la bonne. Tu peux t'améliorer ! 💪";
     }
 
-    // Afficher le message, le score et le temps total
-    const totalTimeTaken = questions.length * 15 - timeLeft; // Exemple si chaque question dure 15 secondes
+     // Formater le score avec 2 décimales
+     let formattedScore = score.toFixed(2);  // Formater avec 2 décimales
+
+    // Calculer le temps total écoulé en secondes
+    let totalElapsedTime = Math.floor((Date.now() - totalStartTime) / 1000); // Temps écoulé depuis le début du quiz
     document.getElementById('congratulations-message').textContent = message;
-    document.getElementById('score').textContent = `Score : ${score}`;
-    document.getElementById('total-time').textContent = `Temps total : ${totalTimeTaken} secondes`;
+    document.getElementById('score').textContent = `🎯 Score : ${formattedScore} 🎯`; // Afficher le score formaté
+    document.getElementById('total-time').textContent = `⏳ Temps total : ${totalElapsedTime} secondes ⏳`;
 
     // Assurez-vous que la page des réponses ne soit pas déjà affichée par défaut
     document.getElementById('answers-view-container').style.display = 'none';
 
     // Appeler endQuiz pour afficher le bouton "Quitter"
     endQuiz();
+    
 }
-
-  
 
 
   
@@ -285,8 +282,6 @@ function checkAnswerAndProceed() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('welcome-container').style.display = 'block'; // Revenir à l'étape de bienvenue
 }
-
-
 
 
 
@@ -374,43 +369,112 @@ document.getElementById('view-answers-button').addEventListener('click', functio
     answersViewContainer.appendChild(downloadButton);
 });
 
-// Fonction pour générer le PDF
-function downloadAnswersAsPDF() {
-    const { jsPDF } = window.jspdf;
+
+   // télécharger les réponses en PDF
+   async function downloadAnswersAsPDF() {
+    const { jsPDF } = window.jspdf; // Charger jsPDF
     const doc = new jsPDF();
+    let yPosition = 20; // Position de départ dans le PDF
 
-    let yPosition = 10; // Position de départ
+    // Ajouter un titre
+    doc.setFontSize(18);
+    doc.text("Résumé de vos réponses au quiz", 10, yPosition);
+    yPosition += 20; // Espacement après le titre
 
-    // Ajouter un titre au PDF
-    doc.text('Mes Réponses au Quiz', 10, yPosition);
-    yPosition += 10;
-
-    // Ajouter les réponses au quiz
+    // Boucle à travers toutes les questions
     questions.forEach((question, index) => {
-        doc.text(`Question ${index + 1}: ${question.question}`, 10, yPosition);
-        yPosition += 10;
+        console.log(`Ajout de la question ${index + 1}: ${question.question}`); // Vérification dans la console
 
+        // Vérifier si l'on doit ajouter une page (si la position Y est trop haute)
+        if (yPosition > 250) {
+            doc.addPage();
+            yPosition = 20; // Réinitialiser la position à la nouvelle page
+        }
+
+        // Ajouter la question
+        doc.setFontSize(14);
+        doc.text(`Question ${index + 1}: ${question.question}`, 10, yPosition);
+        yPosition += 10; // Espacement après la question
+
+        // Ajouter les options de réponses
         question.options.forEach((option, optionIndex) => {
-            let optionText = option;
-            // Vérification de la bonne ou mauvaise réponse
+            let prefix = '';  // Texte préfixe pour la réponse
+            let color = '';   // Couleur de fond
+
+            // Marquer les bonnes réponses avec un fond vert
             if (question.correctIndex.includes(optionIndex)) {
-                optionText = `${option} (Bonne réponse)`;
-            } else if (question.selectedAnswers.includes(optionIndex) && !question.correctIndex.includes(optionIndex)) {
-                optionText = `${option} (Mauvaise réponse)`;
+                prefix = 'Bonne réponse: ';
+                color = '#28a745'; // Couleur verte
             }
-            doc.text(optionText, 10, yPosition);
-            yPosition += 10;
+
+            // Marquer les mauvaises réponses avec un fond rouge
+            if (question.selectedAnswers && question.selectedAnswers.includes(optionIndex) && !question.correctIndex.includes(optionIndex)) {
+                prefix = 'Mauvaise réponse: ';
+                color = '#dc3545'; // Couleur rouge
+            }
+
+            // Réponse neutre
+            if (!prefix) {
+                prefix = 'Réponse: ';
+                color = '#000000'; // Couleur noire
+            }
+
+            // Appliquer la couleur en fonction de la réponse
+            doc.setTextColor(255, 255, 255); // Texte en blanc
+            doc.setFillColor(color);  // Couleur de fond
+
+            // Ajouter un rectangle de fond coloré avec un espacement pour le texte
+            const rectHeight = 8; // Hauteur du rectangle
+            const rectMargin = 2; // Marge entre le texte et les bords du fond
+            doc.rect(10, yPosition - rectMargin, 190, rectHeight, 'F'); // Rectangle de fond coloré
+
+            // Ajouter le texte à une position correcte
+            doc.setTextColor(255, 255, 255); // Texte en blanc
+            doc.text(`${prefix}${option}`, 15, yPosition + 2); // Positionner le texte avec un petit décalage pour éviter la superposition
+
+            yPosition += rectHeight + 5; // Espacer après chaque option
+
+            // Vérifier si on dépasse la page et créer une nouvelle page si nécessaire
+            if (yPosition > 250) { // Vérifier l'espace avant de dépasser la fin de la page
+                doc.addPage();
+                yPosition = 20; // Réinitialiser la position à la nouvelle page
+            }
         });
 
-        // Ajouter l'explication si elle existe
+        // Ajouter l'explication si disponible
         if (question.explanation) {
-            doc.text(`Explication: ${question.explanation}`, 10, yPosition);
-            yPosition += 10;
+            console.log(`Ajout de l'explication pour la question ${index + 1}: ${question.explanation}`); // Vérification dans la console
+
+            if (yPosition > 250) { // Si la position est trop proche de la fin de la page
+                doc.addPage(); // Ajouter une nouvelle page
+                yPosition = 20; // Réinitialiser la position
+            }
+
+            doc.setFont("italic");
+            doc.text(`Explication : ${question.explanation}`, 15, yPosition);
+            doc.setFont("normal");
+
+            yPosition += 10; // Ajouter un petit espacement après l'explication
+
+            // Vérifier si on dépasse la page après l'explication
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+        }
+
+        // Ajouter un espace entre les questions
+        yPosition += 10;
+
+        // Vérifier si on dépasse la page et créer une nouvelle page si nécessaire
+        if (yPosition > 250) {
+            doc.addPage();
+            yPosition = 20; // Réinitialiser la position à la nouvelle page
         }
     });
 
-    // Téléchargement du PDF
-    doc.save('mes_reponses_quiz.pdf');
+    // Télécharger le fichier PDF
+    doc.save("reponses_quiz.pdf");
 }
 
 
@@ -419,72 +483,7 @@ function downloadAnswersAsPDF() {
 
 
 
-
-
-
-
-
-   // télécharger les réponses en PDF
-
-  async function downloadAnswersAsPDF() {
-    const { jsPDF } = window.jspdf; // Charger jsPDF
-    const doc = new jsPDF();
-    let yPosition = 20; // Position de départ dans le PDF
   
-    // Ajouter un titre
-    doc.setFontSize(18);
-    doc.text("Résumé de vos réponses au quiz", 10, yPosition);
-    yPosition += 10;
-  
-    // Boucler sur les questions pour ajouter les détails dans le PDF
-    questions.forEach((question, index) => {
-      // Question
-      doc.setFontSize(14);
-      doc.text(`Question ${index + 1}: ${question.question}`, 10, yPosition);
-      yPosition += 10;
-  
-      // Options et réponses
-      question.options.forEach((option, optionIndex) => {
-        let prefix = '';
-  
-        // Marquer les bonnes et mauvaises réponses
-        if (question.correctIndex.includes(optionIndex)) {
-          prefix = '[Bonne réponse] ';
-        }
-        if (question.selectedAnswers && question.selectedAnswers.includes(optionIndex)) {
-          prefix += '[Votre réponse] ';
-        }
-  
-        doc.setFontSize(12);
-        doc.text(`${prefix}${option}`, 15, yPosition);
-        yPosition += 8;
-  
-        // Vérifier si on dépasse la page et créer une nouvelle page
-        if (yPosition > 270) {
-          doc.addPage();
-          yPosition = 20;
-        }
-      });
-  
-      // Ajouter l'explication si disponible
-      if (question.explanation) {
-        doc.setFont("italic");
-        doc.text(`Explication : ${question.explanation}`, 15, yPosition);
-        doc.setFont("normal");
-        yPosition += 10;
-      }
-  
-      // Ajouter un espace entre les questions
-      yPosition += 10;
-    });
-  
-    // Télécharger le fichier PDF
-    doc.save("reponses_quiz.pdf");
-  }
-  
-  
-
-
 
   // Fonction pour terminer le quiz
   function endQuiz() {
@@ -512,9 +511,6 @@ function downloadAnswersAsPDF() {
     });
 
 }
-
-
-
 
 
   document.addEventListener('DOMContentLoaded', function () {
