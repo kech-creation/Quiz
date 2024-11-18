@@ -30,6 +30,7 @@ const questions = [
       correctIndex: [0], 
       explanation: "Appeler le responsable de la sécurité immédiatement." 
     }
+    
     // Ajouter d'autres questions ici...
   ];
   
@@ -63,42 +64,69 @@ let totalStartTime = Date.now(); // Temps de début du quiz
     checkAnswerAndProceed(); // Vérifier la réponse et passer à la question suivante
   });
   
-  // Fonction pour démarrer le quiz
-  function startQuiz() {
-    document.getElementById('welcome-container').style.display = 'none';
-    document.getElementById('rules-container').style.display = 'block';
-  }
+// Fonction pour démarrer le quiz
+function startQuiz() {
+  // Cacher le conteneur d'accueil et les règles
+  document.getElementById('welcome-container').style.display = 'none';
+  document.getElementById('rules-container').style.display = 'block';
   
+  // Attacher l'événement de clic pour quitter et envoyer l'email avant de commencer le quiz
+  const startQuitButton = document.getElementById('quit-button'); // Assurez-vous que l'id du bouton est correct
+  if (startQuitButton) {
+      startQuitButton.removeEventListener('click', quitEmailHandler); // Supprimer l'événement précédent s'il existe
+      startQuitButton.addEventListener('click', quitEmailHandler); // Ajouter l'événement de clic
+  } else {
+      console.error("Bouton Quitter au début du quiz introuvable !");
+  }
+}
+
 
 
   // Afficher une question et ses options
   function displayQuestion() {
     let question = questions[currentQuestionIndex];
-    document.getElementById('question-text').textContent = question.question;
-    let optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = ''; // Effacer les options précédentes
-  
+
+    // Récupérer les éléments HTML
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+
+    // Effacer les options précédentes
+    optionsContainer.innerHTML = '';
+
+    // Ajouter l'animation fade-in à la question
+    questionText.classList.remove('fade-in'); // Supprimer la classe d'animation si elle existe déjà
+    void questionText.offsetWidth; // Forcer un recalcul du DOM
+    questionText.classList.add('fade-in'); // Ré-appliquer la classe fade-in pour la nouvelle question
+
+    // Afficher le texte de la question
+    questionText.textContent = question.question;
+
     // Créer les options et les afficher
     question.options.forEach((option, index) => {
       let optionLabel = document.createElement('label');
       optionLabel.textContent = option;
+
+      // Appliquer l'animation à chaque option
+      optionLabel.classList.add('option-slide-in'); // Appliquer l'animation
+
       optionLabel.addEventListener('click', () => selectAnswer(index)); // Sélectionner une réponse
       optionsContainer.appendChild(optionLabel);
     });
-  
+
     // Réinitialiser le temps et démarrer le chronomètre
     startTimer();
-  
+
     // Désactiver le bouton "Suivant" tant qu'une réponse n'est pas donnée
     document.getElementById('next-button').disabled = true;
     canProceed = false; // On ne peut pas passer à la question suivante tant qu'il n'y a pas de réponse
 
     // Calculer la progression en pourcentage (dynamique) en fonction de la question actuelle
-  let progressPercentage = (currentQuestionIndex / questions.length) * 100;
+    let progressPercentage = (currentQuestionIndex / questions.length) * 100;
+    
     // Mettre à jour la barre de progression
     updateProgressBar(progressPercentage);
-   
-  }
+}
+
 
   
 
@@ -286,13 +314,7 @@ function checkAnswerAndProceed() {
 
 
 
-  // Fonction pour quitter le quiz
-document.getElementById('quit-button').addEventListener('click', function() {
-    window.close(); // Ferme la fenêtre (fonctionne dans des contextes de fenêtre popup)
-    // Si la fermeture n'est pas possible, on redirige vers la page d'accueil ou une autre page
-    // window.location.href = "index.html"; // Décommentez si vous voulez rediriger
-  });
-
+  
 
 
 
@@ -372,108 +394,107 @@ document.getElementById('view-answers-button').addEventListener('click', functio
 
    // télécharger les réponses en PDF
    async function downloadAnswersAsPDF() {
-    const { jsPDF } = window.jspdf; // Charger jsPDF
+    const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    let yPosition = 20; // Position de départ dans le PDF
+    let yPosition = 20;
 
-    // Ajouter un titre
+    // Titre du document
     doc.setFontSize(18);
     doc.text("Résumé de vos réponses au quiz", 10, yPosition);
-    yPosition += 20; // Espacement après le titre
+    yPosition += 20;
 
-    // Boucle à travers toutes les questions
-    questions.forEach((question, index) => {
-        console.log(`Ajout de la question ${index + 1}: ${question.question}`); // Vérification dans la console
-
-        // Vérifier si l'on doit ajouter une page (si la position Y est trop haute)
-        if (yPosition > 250) {
+    // Fonction de vérification de la page
+    function checkPageOverflow(doc, yPosition, lineHeight = 10) {
+        const pageHeight = doc.internal.pageSize.height;
+        if (yPosition + lineHeight > pageHeight - 20) {
             doc.addPage();
-            yPosition = 20; // Réinitialiser la position à la nouvelle page
+            return 20;
         }
+        return yPosition;
+    }
 
-        // Ajouter la question
+    // Boucle sur les questions
+    questions.forEach((question, index) => {
+        yPosition = checkPageOverflow(doc, yPosition);
         doc.setFontSize(14);
-        doc.text(`Question ${index + 1}: ${question.question}`, 10, yPosition);
-        yPosition += 10; // Espacement après la question
-
-        // Ajouter les options de réponses
-        question.options.forEach((option, optionIndex) => {
-            let prefix = '';  // Texte préfixe pour la réponse
-            let color = '';   // Couleur de fond
-
-            // Marquer les bonnes réponses avec un fond vert
-            if (question.correctIndex.includes(optionIndex)) {
-                prefix = 'Bonne réponse: ';
-                color = '#28a745'; // Couleur verte
-            }
-
-            // Marquer les mauvaises réponses avec un fond rouge
-            if (question.selectedAnswers && question.selectedAnswers.includes(optionIndex) && !question.correctIndex.includes(optionIndex)) {
-                prefix = 'Mauvaise réponse: ';
-                color = '#dc3545'; // Couleur rouge
-            }
-
-            // Réponse neutre
-            if (!prefix) {
-                prefix = 'Réponse: ';
-                color = '#000000'; // Couleur noire
-            }
-
-            // Appliquer la couleur en fonction de la réponse
-            doc.setTextColor(255, 255, 255); // Texte en blanc
-            doc.setFillColor(color);  // Couleur de fond
-
-            // Ajouter un rectangle de fond coloré avec un espacement pour le texte
-            const rectHeight = 8; // Hauteur du rectangle
-            const rectMargin = 2; // Marge entre le texte et les bords du fond
-            doc.rect(10, yPosition - rectMargin, 190, rectHeight, 'F'); // Rectangle de fond coloré
-
-            // Ajouter le texte à une position correcte
-            doc.setTextColor(255, 255, 255); // Texte en blanc
-            doc.text(`${prefix}${option}`, 15, yPosition + 2); // Positionner le texte avec un petit décalage pour éviter la superposition
-
-            yPosition += rectHeight + 5; // Espacer après chaque option
-
-            // Vérifier si on dépasse la page et créer une nouvelle page si nécessaire
-            if (yPosition > 250) { // Vérifier l'espace avant de dépasser la fin de la page
-                doc.addPage();
-                yPosition = 20; // Réinitialiser la position à la nouvelle page
-            }
+        const wrappedQuestion = doc.splitTextToSize(`Question ${index + 1}: ${question.question}`, 180);
+        wrappedQuestion.forEach((line) => {
+            doc.text(line, 10, yPosition);
+            yPosition += 10;
         });
 
-        // Ajouter l'explication si disponible
+        // Boucle sur les réponses
+        question.options.forEach((option, optionIndex) => {
+            yPosition = checkPageOverflow(doc, yPosition);
+
+            // Détermine le préfixe, couleur et style
+            let prefix = "Réponse : ";
+            let color = [0, 0, 0]; // Noir par défaut
+            let fontStyle = "normal"; // Normal par défaut
+
+            if (question.correctIndex.includes(optionIndex)) {
+                prefix = "Bonne réponse : ";
+                color = [0, 128, 0]; // Vert
+                fontStyle = "bold"; // Gras pour les bonnes réponses
+            } else if (
+                question.selectedAnswers &&
+                question.selectedAnswers.includes(optionIndex) &&
+                !question.correctIndex.includes(optionIndex)
+            ) {
+                prefix = "Mauvaise réponse : ";
+                color = [255, 0, 0]; // Rouge
+                fontStyle = "bold"; // Gras pour les mauvaises réponses
+            }
+
+            // Applique les styles et affiche la réponse
+            doc.setFont("helvetica", fontStyle); // Définit le style (normal ou bold)
+            doc.setTextColor(...color); // Définit la couleur
+            const wrappedOption = doc.splitTextToSize(`${prefix}${option}`, 180);
+            wrappedOption.forEach((line) => {
+                doc.text(line, 15, yPosition);
+                yPosition += 10;
+            });
+        });
+
+        // Explication
         if (question.explanation) {
-            console.log(`Ajout de l'explication pour la question ${index + 1}: ${question.explanation}`); // Vérification dans la console
+            yPosition = checkPageOverflow(doc, yPosition, 20);
+            const wrappedExplanation = doc.splitTextToSize(`Explication : ${question.explanation}`, 180);
 
-            if (yPosition > 250) { // Si la position est trop proche de la fin de la page
-                doc.addPage(); // Ajouter une nouvelle page
-                yPosition = 20; // Réinitialiser la position
-            }
+            // Applique le style bleu et italique
+            doc.setFont("helvetica", "italic");
+            doc.setTextColor(0, 123, 255); // Bleu pour les explications
+            wrappedExplanation.forEach((line) => {
+                doc.text(line, 15, yPosition);
+                yPosition += 10;
+            });
 
-            doc.setFont("italic");
-            doc.text(`Explication : ${question.explanation}`, 15, yPosition);
-            doc.setFont("normal");
-
-            yPosition += 10; // Ajouter un petit espacement après l'explication
-
-            // Vérifier si on dépasse la page après l'explication
-            if (yPosition > 250) {
-                doc.addPage();
-                yPosition = 20;
-            }
+            // Réinitialise le style après l'explication
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(0, 0, 0); // Retour au noir
         }
 
-        // Ajouter un espace entre les questions
-        yPosition += 10;
-
-        // Vérifier si on dépasse la page et créer une nouvelle page si nécessaire
-        if (yPosition > 250) {
-            doc.addPage();
-            yPosition = 20; // Réinitialiser la position à la nouvelle page
-        }
+        yPosition += 10; // Espacer les questions
     });
 
-    // Télécharger le fichier PDF
+    // Résumé final
+
+
+    yPosition = checkPageOverflow(doc, yPosition, 20);
+    doc.setFontSize(16);
+    doc.text(`Score final : ${score}/${questions.length}`, 10, yPosition);
+    doc.text(`Score final : ${score}/${questions.length}`, 10, yPosition);
+
+    yPosition += 10; // Espacer les questions
+    
+
+    // Ajouter la date et l'heure actuelles en bas du PDF
+const currentDateTime = new Date().toLocaleString(); // Format de la date et de l'heure
+doc.setFontSize(10); // Taille de police plus petite
+doc.text(`Date et heure du téléchargement : ${currentDateTime}`, 10, yPosition);
+yPosition += 10; // Espacement après la date et l'heure
+    
+    // Télécharger le fichier
     doc.save("reponses_quiz.pdf");
 }
 
@@ -485,32 +506,39 @@ document.getElementById('view-answers-button').addEventListener('click', functio
 
   
 
-  // Fonction pour terminer le quiz
-  function endQuiz() {
-    // Cacher le conteneur du quiz
-    document.getElementById('quiz-container').style.display = 'none';
 
-    // Afficher le conteneur des résultats
-    const resultContainer = document.getElementById('result-container');
-    resultContainer.style.display = 'block';
+// Fonction pour terminer le quiz
+function endQuiz() {
+  // Cacher le conteneur du quiz
+  document.getElementById('quiz-container').style.display = 'none';
 
-    // Déplacer le bouton Quitter vers le conteneur des résultats
-    const quitButton = document.getElementById('quit-button');
-    if (quitButton) {
-        // Supprimer le bouton de son ancien parent s'il y est encore
-        quitButton.style.display = 'inline-block'; // Rendre le bouton visible
-        resultContainer.appendChild(quitButton); // Le placer dans le conteneur des résultats
-    } else {
-        console.error("Bouton Quitter introuvable !");
-    }
+  // Afficher le conteneur des résultats
+  const resultContainer = document.getElementById('result-container');
+  resultContainer.style.display = 'block';
 
-    // Ajouter l'événement de clic au bouton (si pas déjà ajouté)
-    quitButton.addEventListener('click', function () {
-        const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
-        window.location.href = mailtoLink;
-    });
+  // Déplacer le bouton Quitter vers le conteneur des résultats
+  const quitButton = document.getElementById('quit-button');
+  if (quitButton) {
+      // Supprimer le bouton de son ancien parent s'il y est encore
+      quitButton.style.display = 'inline-block'; // Le rendre visible
+      resultContainer.appendChild(quitButton); // Le placer dans le conteneur des résultats
 
+      // Réattacher l'événement de clic après l'avoir déplacé
+      quitButton.removeEventListener('click', quitEmailHandler); // Supprimer l'événement précédent
+      quitButton.addEventListener('click', quitEmailHandler); // Ajouter l'événement de clic pour envoyer l'email
+  } else {
+      console.error("Bouton Quitter introuvable !");
+  }
 }
+
+// Fonction pour gérer l'envoi de l'email
+function quitEmailHandler() {
+  const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
+  window.location.href = mailtoLink; // Ouvre le client de messagerie pour envoyer l'email
+}
+
+
+
 
 
   document.addEventListener('DOMContentLoaded', function () {

@@ -206,11 +206,11 @@ body {
   }
   
   .options label.selected {
-    background: #01ABDD !important;
+    background: #01ABDD; /* Couleur bleue pour les options sélectionnées */
     color: white;
+    border: 1px solid #0078b0;
     animation: pulse 0.5s ease-in-out;
-  }
-  
+}
   @keyframes pulse {
     0% {
       transform: scale(1);
@@ -309,6 +309,24 @@ body {
   }
 }
 
+/* Animation d'apparition des options */
+@keyframes slideInOptions {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* Plus bas au début */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.option-slide-in {
+  animation: slideInOptions 0.8s ease-out; /* Durée plus longue pour une animation plus lente */
+}
+
+
+
 /* Classe appliquée pour l'animation des questions */
 #question-container {
   animation: fadeInQuestion 0.5s ease-out forwards;  /* Animation au moment de l'affichage */
@@ -348,14 +366,10 @@ body {
       font-size: 18px;
     }
 
-    #quit-button {
-     padding: 10px;
-     margin: 10px;
-      }
-
     #continue-button{
-        padding: 10px;
-        margin: 10px;
+        padding: 5px;
+        margin-bottom: 30px;
+        
 
     }
    #quiz-title{
@@ -371,7 +385,7 @@ body {
 }
 
 h1, h2, h3 {
-    font-size: 1.5rem; /* Réduit la taille des titres */
+    font-size: 2rem; /* Réduit la taille des titres */
 }
 
   }
@@ -383,6 +397,6 @@ h1, h2, h3 {
       margin: auto;
     }
     h1, h2, h3 {
-      font-size: 14px; /* Réduit la taille des titres */
+      font-size: 1rem; /* Réduit la taille des titres */
   }
   }
