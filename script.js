@@ -8,7 +8,7 @@ const questions = [
     },
     { 
       question: "Que ne faut-il pas mettre dans le compacteur ?", 
-      options: ["Plastique et carton", "cintres", "Plastique", "Papier"], 
+      options: ["carton", "cintres", "Plastique", "Papier"], 
       correctIndex: [1,3], 
       explanation: "Il faut mettre soit les cartons, soit les plastiques mais pas les deux à la fois !" 
     },
@@ -24,16 +24,52 @@ const questions = [
       correctIndex: [2], 
       explanation: "Le centre commercial est responsable." 
     },
+        
     { 
-      question: "Que faire en cas d'incident avec un compacteur ?", 
-      options: ["Appeler le responsable sécurité", "Ignorer l'incident", "Reprendre l'utilisation", "Alerter immédiatement le superviseur"], 
-      correctIndex: [0], 
-      explanation: "Appeler le responsable de la sécurité immédiatement." 
-    }
+      question: "Quel est le premier geste à adopter en cas d'incendie ?", 
+      options: ["Appeler les pompiers", "Évacuer la zone", "Fermer les fenêtres", "Porter un équipement de protection"],
+      correctIndex: [1], 
+      explanation: "La première étape est d'évacuer la zone pour éviter toute exposition au danger." 
+    },
+    { 
+      question: "Que faire en premier en cas de bris de vitre dans le magasin ?", 
+      options: ["Nettoyer immédiatement les morceaux", "Éviter la zone et prévenir un responsable", "Laisser les morceaux sur place", "Appeler le service de nettoyage"], 
+      correctIndex: [1], 
+      explanation: "Il faut d'abord éviter la zone et prévenir un responsable pour gérer le bris en toute sécurité." 
+    },
+    
+    { 
+      question: "Que faire en cas de chute d'un collègue sur le sol ?", 
+      options: ["L'ignorer et continuer à travailler", "Appeler immédiatement un secours médical", "Essayer de relever la personne sans assistance", "Vérifier les blessures et appeler un SST"], 
+      correctIndex: [3], 
+      explanation: "Il faut toujours vérifier l'état de la victime et appeler immédiatement un SST." 
+    },
+    { 
+      question: "Comment prévenir les risques de chutes sur le sol ?", 
+      options: ["En gardant les allées dégagées", "En nettoyant immédiatement les déversements", "en respectant le marquage sol glissant", "Les trois réponses sont correctes"], 
+      correctIndex: [3], 
+      explanation: "Il est important de garder les allées dégagées, de nettoyer immédiatement les déversements ( cintres par terre...) et de respecter le marquage sol glissant" 
+    },
+    { 
+      question: "Que faire si vous ressentez une gêne ou un inconfort en portant un équipement de protection ?", 
+      options: ["L'ignorer et continuer à travailler", "Signaler immédiatement le problème à un responsable", "Retirer l'équipement", "Ajuster l'équipement seul"], 
+      correctIndex: [1], 
+      explanation: "Tout inconfort ou gêne doit être signalé immédiatement à un responsable pour garantir la sécurité et le confort." 
+    },
+    
+    { 
+      question: "Que faire avant de soulever une charge lourde ?", 
+      options: ["Regarder où l'on met les pieds", "Vérifier la stabilité de la charge", "Utiliser un chariot", "Toutes les réponses sont correctes"], 
+      correctIndex: [3], 
+      explanation: "Avant de soulever une charge lourde, il faut toujours vérifier la stabilité de la charge, regarder où l'on met les pieds, et si nécessaire, utiliser un chariot." 
+    },
+    
     
     // Ajouter d'autres questions ici...
   ];
-  
+  // Nombre de questions à afficher à l'utilisateur (ajustable selon les besoins)
+  const numberOfQuestionsToShow = 10; // Tu peux changer cette valeur pour ajuster le nombre de questions
+  let questionsDisplayed = []; // Tableau pour stocker les questions affichées pendant la session
   let currentQuestionIndex = 0;
   let score = 0;
   let totalTimeTaken = 0; // Temps total pris
@@ -80,11 +116,37 @@ function startQuiz() {
   }
 }
 
+// Fonction pour mélanger un tableau de manière aléatoire
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Échange des éléments
+  }
+  return array;
+}
+
+// Mélanger les questions avant de les afficher
+const shuffledQuestions = shuffleArray([...questions]);
+
+// Définir le nombre de questions à afficher, sans dépasser le nombre total disponible
+const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestionsToShow, shuffledQuestions.length));
+
 
 
   // Afficher une question et ses options
   function displayQuestion() {
-    let question = questions[currentQuestionIndex];
+    // Vérifier si l'index de la question est valide
+    if (currentQuestionIndex >= numberOfQuestionsToShow) {
+      endQuiz(); // Terminer le quiz
+      showResults(); // Afficher les résultats
+      return; // Arrêter l'affichage des questions
+    }
+
+    // Utiliser les questions mélangées et limitées
+    let question = questions[currentQuestionIndex]; // Utilise 'questions' et non 'questionsToDisplay'
+
+    // Ajouter la question affichée à questionsDisplayed
+    questionsDisplayed.push(question);
 
     // Récupérer les éléments HTML
     const questionText = document.getElementById('question-text');
@@ -94,7 +156,7 @@ function startQuiz() {
     optionsContainer.innerHTML = '';
 
     // Ajouter l'animation fade-in à la question
-    questionText.classList.remove('fade-in'); // Supprimer la classe d'animation si elle existe déjà
+    questionText.classList.remove('fade-in');
     void questionText.offsetWidth; // Forcer un recalcul du DOM
     questionText.classList.add('fade-in'); // Ré-appliquer la classe fade-in pour la nouvelle question
 
@@ -103,14 +165,14 @@ function startQuiz() {
 
     // Créer les options et les afficher
     question.options.forEach((option, index) => {
-      let optionLabel = document.createElement('label');
-      optionLabel.textContent = option;
+        let optionLabel = document.createElement('label');
+        optionLabel.textContent = option;
 
-      // Appliquer l'animation à chaque option
-      optionLabel.classList.add('option-slide-in'); // Appliquer l'animation
+        // Appliquer l'animation à chaque option
+        optionLabel.classList.add('option-slide-in');
 
-      optionLabel.addEventListener('click', () => selectAnswer(index)); // Sélectionner une réponse
-      optionsContainer.appendChild(optionLabel);
+        optionLabel.addEventListener('click', () => selectAnswer(index)); // Sélectionner une réponse
+        optionsContainer.appendChild(optionLabel);
     });
 
     // Réinitialiser le temps et démarrer le chronomètre
@@ -121,11 +183,10 @@ function startQuiz() {
     canProceed = false; // On ne peut pas passer à la question suivante tant qu'il n'y a pas de réponse
 
     // Calculer la progression en pourcentage (dynamique) en fonction de la question actuelle
-    let progressPercentage = (currentQuestionIndex / questions.length) * 100;
-    
-    // Mettre à jour la barre de progression
+    let progressPercentage = (currentQuestionIndex / numberOfQuestionsToShow) * 100; // Basé sur le nombre total de questions
     updateProgressBar(progressPercentage);
 }
+
 
 
   
@@ -499,14 +560,6 @@ yPosition += 10; // Espacement après la date et l'heure
 }
 
 
-
-
-
-
-
-  
-
-
 // Fonction pour terminer le quiz
 function endQuiz() {
   // Cacher le conteneur du quiz
@@ -538,9 +591,6 @@ function quitEmailHandler() {
 }
 
 
-
-
-
   document.addEventListener('DOMContentLoaded', function () {
     var rulesContainer = document.getElementById('rules-container');
     
@@ -562,8 +612,6 @@ function disableOptions() {
     option.classList.add('disabled'); // Ajoute un style pour montrer qu'elles sont désactivées
   });
 }
-
-
 
 function updateProgressBar(targetValue) {
   // Validation de la valeur entre 0 et 100
