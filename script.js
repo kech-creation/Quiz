@@ -136,14 +136,14 @@ const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestions
   // Afficher une question et ses options
   function displayQuestion() {
     // Vérifier si l'index de la question est valide
-    if (currentQuestionIndex >= numberOfQuestionsToShow) {
+    if (currentQuestionIndex >= questionsToDisplay.length) {
       endQuiz(); // Terminer le quiz
       showResults(); // Afficher les résultats
       return; // Arrêter l'affichage des questions
     }
 
     // Utiliser les questions mélangées et limitées
-    let question = questions[currentQuestionIndex]; // Utilise 'questions' et non 'questionsToDisplay'
+    let question = questionsToDisplay[currentQuestionIndex]; // Utilise 'questions' et non 'questionsToDisplay'
 
     // Ajouter la question affichée à questionsDisplayed
     questionsDisplayed.push(question);
@@ -183,7 +183,7 @@ const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestions
     canProceed = false; // On ne peut pas passer à la question suivante tant qu'il n'y a pas de réponse
 
     // Calculer la progression en pourcentage (dynamique) en fonction de la question actuelle
-    let progressPercentage = (currentQuestionIndex / numberOfQuestionsToShow) * 100; // Basé sur le nombre total de questions
+    let progressPercentage = (currentQuestionIndex / questionsToDisplay.length) * 100; // Basé sur le nombre total de questions
     updateProgressBar(progressPercentage);
 }
 
@@ -320,9 +320,9 @@ function checkAnswerAndProceed() {
 
     // Calcul du message personnalisé en fonction du score
     let message;
-    if (score === questions.length) {
+    if (score === questionsToDisplay.length) {
         message = "🎉 Bravo, tu es un expert ! Tu as obtenu le score parfait ! 🎉";
-    } else if (score >= questions.length / 2) {
+    } else if (score >= questionsToDisplay.length/ 2) {
         message = "🚀 Super travail ! Tu as bien joué, continue comme ça ! 🚀";
     } else {
         message = "💪 Courage ! La prochaine fois sera la bonne. Tu peux t'améliorer ! 💪";
@@ -349,9 +349,11 @@ function checkAnswerAndProceed() {
   
   // Fonction pour redémarrer le quiz
   function restartQuiz() {
+    location.reload();
     score = 0; // Réinitialiser le score
     totalTimeTaken = 0; // Réinitialiser le temps total
     currentQuestionIndex = 0; // Revenir à la première question
+    questionsDisplayed = [];
 
     // Réinitialiser l'affichage des sections
     document.getElementById('result-container').style.display = 'none'; // Cacher les résultats
@@ -366,6 +368,12 @@ function checkAnswerAndProceed() {
 
     // Réinitialiser l'état du bouton "Suivant"
     document.getElementById('next-button').disabled = true;
+
+    
+    // Mélange à nouveau les questions
+    const shuffledQuestions = shuffleArray([...questions]);
+    questionsToDisplay = shuffledQuestions.slice(0, numberOfQuestionsToShow);
+
 
     // Remettre l'écran de bienvenue et les autres étapes à zéro
     document.getElementById('quiz-container').style.display = 'none';
