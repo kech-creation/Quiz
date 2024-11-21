@@ -4,6 +4,7 @@ Toute reproduction, distribution ou utilisation non autorisée est strictement i
 Contact : [kech.creation@gmail.com]
 */
 
+
 // Tableau des questions, options et réponses correctes
 const questions = [
     { 
@@ -392,22 +393,52 @@ function checkAnswerAndProceed() {
   
 
 
+// Créer la variable scoreMessage
+let scoreMessage = `J'ai terminé le quiz EHS 215 ! Mon score est de ${score} sur ${questions.length} ! 🎉`;
 
-  // Fonction pour partager le score sur les réseaux sociaux
+// Fonction générique pour ouvrir une URL de partage
+function shareOnSocialMedia(url) {
+  let shareText = encodeURIComponent(scoreMessage); // Utiliser scoreMessage déjà défini
+  window.open(url + shareText, '_blank'); // Ouvrir dans un nouvel onglet
+  hideShareOptions(); // Masquer les options après le choix
+}
+
+// Ajouter des événements pour chaque bouton de partage
 document.getElementById('share-score-button').addEventListener('click', function() {
-    let scoreMessage = `J'ai terminé le quiz ! Mon score est de ${score} sur ${questions.length} ! 🎉`;
-    let shareText = encodeURIComponent(scoreMessage); // Encode le message pour l'URL
-    
-    // Partager sur Twitter
-    let twitterURL = `https://twitter.com/intent/tweet?text=${shareText}`;
-    window.open(twitterURL, '_blank'); // Ouvrir dans un nouvel onglet
-  
-    // Partager sur Facebook
-    let facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=${shareText}`;
-    window.open(facebookURL, '_blank'); // Ouvrir dans un nouvel onglet
-  });
+  // Afficher ou masquer les options de partage
+  let shareOptions = document.getElementById('share-options');
+  if (shareOptions.style.display === 'block') {
+    shareOptions.style.display = 'none';
+  } else {
+    shareOptions.style.display = 'block';
+  }
+});
 
+// Ajouter les événements pour chaque bouton spécifique
+document.getElementById('share-twitter').addEventListener('click', function() {
+  shareOnSocialMedia(`https://twitter.com/intent/tweet?text=`);
+});
 
+document.getElementById('share-facebook').addEventListener('click', function() {
+  shareOnSocialMedia(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=`);
+});
+
+document.getElementById('share-linkedin').addEventListener('click', function() {
+  shareOnSocialMedia(`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}&title=Mon%20score%20sur%20le%20quiz&summary=`);
+});
+
+document.getElementById('share-whatsapp').addEventListener('click', function() {
+  shareOnSocialMedia(`https://api.whatsapp.com/send?text=`);
+});
+
+// Fonction pour masquer les options de partage après sélection
+function hideShareOptions() {
+  document.getElementById('share-options').style.display = 'none';
+}
+// Fonction pour masquer les options de partage après sélection
+function hideShareOptions() {
+  document.getElementById('share-options').style.display = 'none';
+}
 
 
  
