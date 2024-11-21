@@ -1,3 +1,9 @@
+/*
+Ce code JavaScript est protégé par le droit d'auteur © [MT] - [2024].
+Toute reproduction, distribution ou utilisation non autorisée est strictement interdite.
+Contact : [kech.creation@gmail.com]
+*/
+
 // Tableau des questions, options et réponses correctes
 const questions = [
     { 
