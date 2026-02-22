@@ -8,7 +8,7 @@ const questions = [
     },
     { 
       question: "Que ne faut-il pas mettre dans le compacteur ?", 
-      options: ["Plastique et carton", "cintres", "Plastique", "Papier"], 
+      options: ["Plastique et carton", "Cintres", "Plastique", "Papier"], 
       correctIndex: [1,3], 
       explanation: "Il faut mettre soit les cartons, soit les plastiques mais pas les deux à la fois !" 
     },
@@ -44,13 +44,13 @@ const questions = [
     },
     { 
       question: "Que faire en cas d'incident avec un compacteur ?", 
-      options: ["remonter l'information au responsable EHS", "Ignorer l'incident", "Reprendre l'utilisation", "Alerter immédiatement un sénior"], 
+      options: ["Remonter l'information au responsable EHS", "Ignorer l'incident", "Reprendre l'utilisation", "Alerter immédiatement un sénior"], 
       correctIndex: [0,3], 
       explanation: "Alerter immédiatement un sénior et remonter l'information au responsable EHS à l'aide du QR code devant les pointeuses." 
     },
     { 
       question: "Ou se trouve notre point de rassemblement en cas d'incendie ?", 
-      options: ["devant zara", "sur le parking CIRCE", "Devant le théatre Hélios", "n'importe ou"], 
+      options: ["Devant zara", "Sur le parking CIRCE", "Devant le théatre Hélios", "N'importe ou"], 
       correctIndex: [2], 
       explanation: "en cas d'incendie le point de rassemblement se trouve devant le théatre Hélios, à noter qu'on a un 2eme point de rassemblement en cas d'alerte à la Bombe qui se trouve sur le quai de livraison" 
     },
@@ -62,7 +62,7 @@ const questions = [
     },
     { 
       question: "Quel est le Rôle des Coachs EHS dans le magasin", 
-      options: ["faire des checklist de sécurité", "être le relais du responsable EHS", "proposer des idées pour améliorer la sécurité dans le magasin", "participer à des réunion pour gérer les presque accident de travail"], 
+      options: ["Faire des checklist de sécurité", "être le relais du responsable EHS", "Proposer des idées pour améliorer la sécurité dans le magasin", "Participer à des réunion pour gérer les presque accident de travail"], 
       correctIndex: [0,1,2,3], 
       explanation: "les Coachs EHS sont en contact direct avec le responsable EHS du magasin afin d'améliorer ensemble notre engagement EHS collectif à travers plusieurs missions : trouver des plan d'action pour gerer les presque accident, collaborer pour instaurer une culture EHS dans le magasin..." 
     },
@@ -81,7 +81,7 @@ const questions = [
 
     { 
       question: "quelle distance dois-je laisser devant chaque extincteur & RIA (robinet d'incendie armé)", 
-      options: ["aucune", "5m", "4m", "1m"], 
+      options: ["Aucune", "5m", "4m", "1m"], 
       correctIndex: [3], 
       explanation: "Le réveil musculaire représente une étape essentielle pour préparer le corps à l’effort physique. Cette pratique, souvent négligée, joue pourtant un rôle déterminant dans la prévention des blessures." 
     },
@@ -99,25 +99,25 @@ const questions = [
     },
      { 
       question: "Que dois-je faire si je trouve dans ma zone un produit dépareillé ou un pack incomplet ?", 
-      options: ["le ramener dans la zone S&D ", "L'ignorer", "faire la reconstit à l'aide de ma banane", "demander à un manager"], 
+      options: ["Le ramener dans la zone S&D ", "L'ignorer", "Faire la reconstit à l'aide de ma banane", "Demander à un manager"], 
       correctIndex: [2], 
       explanation: "la reconstit est notre priorité à l'aide des bananes distribuée à chaque département cette démarche est très importante pour l'entreprise et pour la planète" 
     },
     { 
       question: "Si ma banane est vide que dois-je faire ?", 
-      options: ["la déposer dans la zone S&D ", "ignorer", "prendre une autre banane", "le signaler à mon manager pour la remplir"], 
+      options: ["La déposer dans la zone S&D ", "Ignorer", "Prendre une autre banane", "Le signaler à mon manager pour la remplir"], 
       correctIndex: [3], 
       explanation: "Mon intérlocuteur préviligié est mon Manager" 
     },
     { 
       question: "si je traverse une période difficile que dois-je Faire", 
-      options: ["ignorer ! la vie n'est pas simple", "me venger sur les clients", "en parler à mon manager", "contacter le programme parlons-on"], 
+      options: ["Ignorer ! la vie n'est pas simple", "Me venger sur les clients", "En parler à mon manager", "Contacter le programme parlons-on"], 
       correctIndex: [2,3], 
       explanation: "il est important de faire attention à sa santé mentale c'est pour ça que ton manager est la pour toi ainsi que les référents santé mentale et également le programme Parlons-on qui est payé par primark pour toi pour être accompagné par des profesionnels Gratuitement et anonymement" 
     },
     { 
       question: "ou est ce que je peux trouver la NEWSLETTER EHS", 
-      options: ["à la cantine", "sur le tableau EHS", "Sur ZING", "au stock"], 
+      options: ["à la cantine", "Sur le tableau EHS", "Sur ZING", "Au stock"], 
       correctIndex: [1,2], 
       explanation: "Chaque mois l'équipe EHS du magasin composée du responsable EHS et les coachs EHS vous prépare une NEWSLETTER avec plein d'informations EHS" 
     },
