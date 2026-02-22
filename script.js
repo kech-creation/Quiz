@@ -1,10 +1,3 @@
-/*
-Ce code JavaScript est protégé par le droit d'auteur © [MT] - [2024].
-Toute reproduction, distribution ou utilisation non autorisée est strictement interdite.
-Contact : [kech.creation@gmail.com]
-*/
-
-
 // Tableau des questions, options et réponses correctes
 const questions = [
     { 
@@ -15,7 +8,7 @@ const questions = [
     },
     { 
       question: "Que ne faut-il pas mettre dans le compacteur ?", 
-      options: ["carton", "cintres", "Plastique", "Papier"], 
+      options: ["Plastique et carton", "cintres", "Plastique", "Papier"], 
       correctIndex: [1,3], 
       explanation: "Il faut mettre soit les cartons, soit les plastiques mais pas les deux à la fois !" 
     },
@@ -26,57 +19,111 @@ const questions = [
       explanation: "Aucune durée sans formation." 
     },
     { 
-      question: "Qui est responsable du traitement des déchets DIB ?", 
+      question: "Qui est responsable du traitement de nos déchets DIB ?", 
       options: ["L'équipe EHS", "Veolia", "Le centre commercial", "La gestion des déchets internes"], 
       correctIndex: [2], 
-      explanation: "Le centre commercial est responsable." 
-    },
-        
-    { 
-      question: "Quel est le premier geste à adopter en cas d'incendie ?", 
-      options: ["Appeler les pompiers", "Évacuer la zone", "Fermer les fenêtres", "Porter un équipement de protection"],
-      correctIndex: [1], 
-      explanation: "La première étape est d'évacuer la zone pour éviter toute exposition au danger." 
+      explanation: "Le centre commercial est responsable.Les déchets industriels banals, aussi appelés déchets non dangereux non inertes, regroupent l’ensemble des déchets produits par les activités économiques (industrie, artisanat, commerce, BTP...) ne présentant pas de caractère dangereux pour la santé humaine ou l’environnement." 
     },
     { 
-      question: "Que faire en premier en cas de bris de vitre dans le magasin ?", 
-      options: ["Nettoyer immédiatement les morceaux", "Éviter la zone et prévenir un responsable", "Laisser les morceaux sur place", "Appeler le service de nettoyage"], 
-      correctIndex: [1], 
-      explanation: "Il faut d'abord éviter la zone et prévenir un responsable pour gérer le bris en toute sécurité." 
+      question: "dans quelle poubelle on met nos déchets DIB ?", 
+      options: ["Poubelle Jaune", "Pouvelle Verte", "Poubelle Grise", "Poubelle Rouge"], 
+      correctIndex: [2], 
+      explanation: "Nos déchets DIB ( poubelle grise) sont les suivant : Rembourage Chaussures,Papier de soie,Papier renforcé,Tour de cou chemises hommes,Elastiques,Renforcement  Chaussures,Planche papier entre les vêtements ( pyjamas,..),Planche papier entre les vêtements ( pyjamas,..),Cordes Départements accessoires ( attache bijoux..),Attaches pyjamas,Anti-Humidité,Polystyrène ( dans les valises),Gros morceaux de papier ( dans les valises)" 
     },
-    
     { 
-      question: "Que faire en cas de chute d'un collègue sur le sol ?", 
-      options: ["L'ignorer et continuer à travailler", "Appeler immédiatement un secours médical", "Essayer de relever la personne sans assistance", "Vérifier les blessures et appeler un SST"], 
+      question: "Dans quelle poubelle on met les cintres ?", 
+      options: ["Poubelle Jaune", "Pouvelle Verte", "Poubelle Grise", "Poubelle Rouge"], 
+      correctIndex: [0], 
+      explanation: "les cintres sont à mettre dans les poubelles Jaune qui sont revalorisé par Véolia et récupérer tous les matins entre 4h et 6h sauf le week-end" 
+    },
+    { 
+      question: "Qui débarasse nos Balles de cartons & plastiques", 
+      options: ["Le centre commercial", "La mairie", "Emalec", "Véolia"], 
       correctIndex: [3], 
-      explanation: "Il faut toujours vérifier l'état de la victime et appeler immédiatement un SST." 
+      explanation: "après avoir compacter nos cartons et plastique transparent ces déchets sont revalorisé par Véolia et récupérer tous les jours sauf le week-end" 
     },
     { 
-      question: "Comment prévenir les risques de chutes sur le sol ?", 
-      options: ["En gardant les allées dégagées", "En nettoyant immédiatement les déversements", "en respectant le marquage sol glissant", "Les trois réponses sont correctes"], 
-      correctIndex: [3], 
-      explanation: "Il est important de garder les allées dégagées, de nettoyer immédiatement les déversements ( cintres par terre...) et de respecter le marquage sol glissant" 
+      question: "Que faire en cas d'incident avec un compacteur ?", 
+      options: ["remonter l'information au responsable EHS", "Ignorer l'incident", "Reprendre l'utilisation", "Alerter immédiatement un sénior"], 
+      correctIndex: [0,3], 
+      explanation: "Alerter immédiatement un sénior et remonter l'information au responsable EHS à l'aide du QR code devant les pointeuses." 
     },
     { 
-      question: "Que faire si vous ressentez une gêne ou un inconfort en portant un équipement de protection ?", 
-      options: ["L'ignorer et continuer à travailler", "Signaler immédiatement le problème à un responsable", "Retirer l'équipement", "Ajuster l'équipement seul"], 
+      question: "Ou se trouve notre point de rassemblement en cas d'incendie ?", 
+      options: ["devant zara", "sur le parking CIRCE", "Devant le théatre Hélios", "n'importe ou"], 
+      correctIndex: [2], 
+      explanation: "en cas d'incendie le point de rassemblement se trouve devant le théatre Hélios, à noter qu'on a un 2eme point de rassemblement en cas d'alerte à la Bombe qui se trouve sur le quai de livraison" 
+    },
+    { 
+      question: "Qui est le responsable EHS du magasin ?", 
+      options: ["Jeremy", "Anais", "Monsef", "Thomas"], 
+      correctIndex: [2], 
+      explanation: "le responsable EHS du magasin est Monsef, son rôle est de gérer tous les sujets EHS du magasin pour le contacter je peux scnanner le QR code à coté des pointeuses pour toute question ou suggestion" 
+    },
+    { 
+      question: "Quel est le Rôle des Coachs EHS dans le magasin", 
+      options: ["faire des checklist de sécurité", "être le relais du responsable EHS", "proposer des idées pour améliorer la sécurité dans le magasin", "participer à des réunion pour gérer les presque accident de travail"], 
+      correctIndex: [0,1,2,3], 
+      explanation: "les Coachs EHS sont en contact direct avec le responsable EHS du magasin afin d'améliorer ensemble notre engagement EHS collectif à travers plusieurs missions : trouver des plan d'action pour gerer les presque accident, collaborer pour instaurer une culture EHS dans le magasin..." 
+    },
+    { 
+      question: "quelle est la hauteur Max comme base du dernier carton sur ma palette", 
+      options: ["2m", "1,52m", "1,42m", "1,62m"], 
       correctIndex: [1], 
-      explanation: "Tout inconfort ou gêne doit être signalé immédiatement à un responsable pour garantir la sécurité et le confort." 
+      explanation: "la base du dernier carton que je peux poser sur une palette est 1,52m et je dois également faire attention au montage de la palette :  les cartons lourd en bas et les légers en haut" 
     },
-    
     { 
-      question: "Que faire avant de soulever une charge lourde ?", 
-      options: ["Regarder où l'on met les pieds", "Vérifier la stabilité de la charge", "Utiliser un chariot", "Toutes les réponses sont correctes"], 
-      correctIndex: [3], 
-      explanation: "Avant de soulever une charge lourde, il faut toujours vérifier la stabilité de la charge, regarder où l'on met les pieds, et si nécessaire, utiliser un chariot." 
+      question: "je dois faire le réveil musculaire avant de commencer ma journée de travail", 
+      options: ["Vrai", "Faux"], 
+      correctIndex: [0], 
+      explanation: "Le réveil musculaire représente une étape essentielle pour préparer le corps à l’effort physique. Cette pratique, souvent négligée, joue pourtant un rôle déterminant dans la prévention des blessures." 
     },
-    
-    
+
+    { 
+      question: "quelle distance dois-je laisser devant chaque extincteur & RIA (robinet d'incendie armé)", 
+      options: ["aucune", "5m", "4m", "1m"], 
+      correctIndex: [3], 
+      explanation: "Le réveil musculaire représente une étape essentielle pour préparer le corps à l’effort physique. Cette pratique, souvent négligée, joue pourtant un rôle déterminant dans la prévention des blessures." 
+    },
+     { 
+      question: "Qui sont les référents Santé Mentale du magasin", 
+      options: ["Soufiane", "Monsef", "Luminita", "Hamza"], 
+      correctIndex: [0,1,2], 
+      explanation: "Luminita,Soufiane et Monsef : cette équipe a pour mission d'anticiper les risques psychosociaux et instaurer une démarche de prévention quotidienne" 
+    },
+      { 
+      question: "Qui est le Champion Energie du magasin", 
+      options: ["Cedric", "Monsef", "Thomas", "Emilie"], 
+      correctIndex: [1], 
+      explanation: "Monsef est le champion Energie du magasin son rôle : Analyser et optimiser nos consommations d’énergie / Maîtriser les dépenses / Réduire l'empreinte carbone de notre magasin / Sensibiliser les salariés aux éco gestes..." 
+    },
+     { 
+      question: "Que dois-je faire si je trouve dans ma zone un produit dépareillé ou un pack incomplet ?", 
+      options: ["le ramener dans la zone S&D ", "L'ignorer", "faire la reconstit à l'aide de ma banane", "demander à un manager"], 
+      correctIndex: [2], 
+      explanation: "la reconstit est notre priorité à l'aide des bananes distribuée à chaque département cette démarche est très importante pour l'entreprise et pour la planète" 
+    },
+    { 
+      question: "Si ma banane est vide que dois-je faire ?", 
+      options: ["la déposer dans la zone S&D ", "ignorer", "prendre une autre banane", "le signaler à mon manager pour la remplir"], 
+      correctIndex: [3], 
+      explanation: "Mon intérlocuteur préviligié est mon Manager" 
+    },
+    { 
+      question: "si je traverse une période difficile que dois-je Faire", 
+      options: ["ignorer ! la vie n'est pas simple", "me venger sur les clients", "en parler à mon manager", "contacter le programme parlons-on"], 
+      correctIndex: [2,3], 
+      explanation: "il est important de faire attention à sa santé mentale c'est pour ça que ton manager est la pour toi ainsi que les référents santé mentale et également le programme Parlons-on qui est payé par primark pour toi pour être accompagné par des profesionnels Gratuitement et anonymement" 
+    },
+    { 
+      question: "ou est ce que je peux trouver la NEWSLETTER EHS", 
+      options: ["à la cantine", "sur le tableau EHS", "Sur ZING", "au stock"], 
+      correctIndex: [1,2], 
+      explanation: "Chaque mois l'équipe EHS du magasin composée du responsable EHS et les coachs EHS vous prépare une NEWSLETTER avec plein d'informations EHS" 
+    },
     // Ajouter d'autres questions ici...
   ];
-  // Nombre de questions à afficher à l'utilisateur (ajustable selon les besoins)
-  const numberOfQuestionsToShow = 10; // Tu peux changer cette valeur pour ajuster le nombre de questions
-  let questionsDisplayed = []; // Tableau pour stocker les questions affichées pendant la session
+  
   let currentQuestionIndex = 0;
   let score = 0;
   let totalTimeTaken = 0; // Temps total pris
@@ -107,53 +154,17 @@ let totalStartTime = Date.now(); // Temps de début du quiz
     checkAnswerAndProceed(); // Vérifier la réponse et passer à la question suivante
   });
   
-// Fonction pour démarrer le quiz
-function startQuiz() {
-  // Cacher le conteneur d'accueil et les règles
-  document.getElementById('welcome-container').style.display = 'none';
-  document.getElementById('rules-container').style.display = 'block';
+  // Fonction pour démarrer le quiz
+  function startQuiz() {
+    document.getElementById('welcome-container').style.display = 'none';
+    document.getElementById('rules-container').style.display = 'block';
+  }
   
-  // Attacher l'événement de clic pour quitter et envoyer l'email avant de commencer le quiz
-  const startQuitButton = document.getElementById('quit-button'); // Assurez-vous que l'id du bouton est correct
-  if (startQuitButton) {
-      startQuitButton.removeEventListener('click', quitEmailHandler); // Supprimer l'événement précédent s'il existe
-      startQuitButton.addEventListener('click', quitEmailHandler); // Ajouter l'événement de clic
-  } else {
-      console.error("Bouton Quitter au début du quiz introuvable !");
-  }
-}
-
-// Fonction pour mélanger un tableau de manière aléatoire
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; // Échange des éléments
-  }
-  return array;
-}
-
-// Mélanger les questions avant de les afficher
-const shuffledQuestions = shuffleArray([...questions]);
-
-// Définir le nombre de questions à afficher, sans dépasser le nombre total disponible
-const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestionsToShow, shuffledQuestions.length));
-
 
 
   // Afficher une question et ses options
   function displayQuestion() {
-    // Vérifier si l'index de la question est valide
-    if (currentQuestionIndex >= questionsToDisplay.length) {
-      endQuiz(); // Terminer le quiz
-      showResults(); // Afficher les résultats
-      return; // Arrêter l'affichage des questions
-    }
-
-    // Utiliser les questions mélangées et limitées
-    let question = questionsToDisplay[currentQuestionIndex]; // Utilise 'questions' et non 'questionsToDisplay'
-
-    // Ajouter la question affichée à questionsDisplayed
-    questionsDisplayed.push(question);
+    let question = questions[currentQuestionIndex];
 
     // Récupérer les éléments HTML
     const questionText = document.getElementById('question-text');
@@ -163,7 +174,7 @@ const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestions
     optionsContainer.innerHTML = '';
 
     // Ajouter l'animation fade-in à la question
-    questionText.classList.remove('fade-in');
+    questionText.classList.remove('fade-in'); // Supprimer la classe d'animation si elle existe déjà
     void questionText.offsetWidth; // Forcer un recalcul du DOM
     questionText.classList.add('fade-in'); // Ré-appliquer la classe fade-in pour la nouvelle question
 
@@ -172,14 +183,14 @@ const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestions
 
     // Créer les options et les afficher
     question.options.forEach((option, index) => {
-        let optionLabel = document.createElement('label');
-        optionLabel.textContent = option;
+      let optionLabel = document.createElement('label');
+      optionLabel.textContent = option;
 
-        // Appliquer l'animation à chaque option
-        optionLabel.classList.add('option-slide-in');
+      // Appliquer l'animation à chaque option
+      optionLabel.classList.add('option-slide-in'); // Appliquer l'animation
 
-        optionLabel.addEventListener('click', () => selectAnswer(index)); // Sélectionner une réponse
-        optionsContainer.appendChild(optionLabel);
+      optionLabel.addEventListener('click', () => selectAnswer(index)); // Sélectionner une réponse
+      optionsContainer.appendChild(optionLabel);
     });
 
     // Réinitialiser le temps et démarrer le chronomètre
@@ -190,10 +201,11 @@ const questionsToDisplay = shuffledQuestions.slice(0, Math.min(numberOfQuestions
     canProceed = false; // On ne peut pas passer à la question suivante tant qu'il n'y a pas de réponse
 
     // Calculer la progression en pourcentage (dynamique) en fonction de la question actuelle
-    let progressPercentage = (currentQuestionIndex / questionsToDisplay.length) * 100; // Basé sur le nombre total de questions
+    let progressPercentage = (currentQuestionIndex / questions.length) * 100;
+    
+    // Mettre à jour la barre de progression
     updateProgressBar(progressPercentage);
 }
-
 
 
   
@@ -327,9 +339,9 @@ function checkAnswerAndProceed() {
 
     // Calcul du message personnalisé en fonction du score
     let message;
-    if (score === questionsToDisplay.length) {
+    if (score === questions.length) {
         message = "🎉 Bravo, tu es un expert ! Tu as obtenu le score parfait ! 🎉";
-    } else if (score >= questionsToDisplay.length/ 2) {
+    } else if (score >= questions.length / 2) {
         message = "🚀 Super travail ! Tu as bien joué, continue comme ça ! 🚀";
     } else {
         message = "💪 Courage ! La prochaine fois sera la bonne. Tu peux t'améliorer ! 💪";
@@ -356,11 +368,9 @@ function checkAnswerAndProceed() {
   
   // Fonction pour redémarrer le quiz
   function restartQuiz() {
-    location.reload();
     score = 0; // Réinitialiser le score
     totalTimeTaken = 0; // Réinitialiser le temps total
     currentQuestionIndex = 0; // Revenir à la première question
-    questionsDisplayed = [];
 
     // Réinitialiser l'affichage des sections
     document.getElementById('result-container').style.display = 'none'; // Cacher les résultats
@@ -376,12 +386,6 @@ function checkAnswerAndProceed() {
     // Réinitialiser l'état du bouton "Suivant"
     document.getElementById('next-button').disabled = true;
 
-    
-    // Mélange à nouveau les questions
-    const shuffledQuestions = shuffleArray([...questions]);
-    questionsToDisplay = shuffledQuestions.slice(0, numberOfQuestionsToShow);
-
-
     // Remettre l'écran de bienvenue et les autres étapes à zéro
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('welcome-container').style.display = 'block'; // Revenir à l'étape de bienvenue
@@ -390,55 +394,31 @@ function checkAnswerAndProceed() {
 
 
 
-  
+  // Fonction pour quitter le quiz
+document.getElementById('quit-button').addEventListener('click', function() {
+    window.close(); // Ferme la fenêtre (fonctionne dans des contextes de fenêtre popup)
+    // Si la fermeture n'est pas possible, on redirige vers la page d'accueil ou une autre page
+    // window.location.href = "index.html"; // Décommentez si vous voulez rediriger
+  });
 
 
-// Créer la variable scoreMessage
-let scoreMessage = `J'ai terminé le quiz EHS 215 ! Mon score est de ${score} sur ${questions.length} ! 🎉`;
 
-// Fonction générique pour ouvrir une URL de partage
-function shareOnSocialMedia(url) {
-  let shareText = encodeURIComponent(scoreMessage); // Utiliser scoreMessage déjà défini
-  window.open(url + shareText, '_blank'); // Ouvrir dans un nouvel onglet
-  hideShareOptions(); // Masquer les options après le choix
-}
 
-// Ajouter des événements pour chaque bouton de partage
+  // Fonction pour partager le score sur les réseaux sociaux
 document.getElementById('share-score-button').addEventListener('click', function() {
-  // Afficher ou masquer les options de partage
-  let shareOptions = document.getElementById('share-options');
-  if (shareOptions.style.display === 'block') {
-    shareOptions.style.display = 'none';
-  } else {
-    shareOptions.style.display = 'block';
-  }
-});
+    let scoreMessage = `J'ai terminé le quiz ! Mon score est de ${score} sur ${questions.length} ! 🎉`;
+    let shareText = encodeURIComponent(scoreMessage); // Encode le message pour l'URL
+    
+    // Partager sur Twitter
+    let twitterURL = `https://twitter.com/intent/tweet?text=${shareText}`;
+    window.open(twitterURL, '_blank'); // Ouvrir dans un nouvel onglet
+  
+    // Partager sur Facebook
+    let facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=${shareText}`;
+    window.open(facebookURL, '_blank'); // Ouvrir dans un nouvel onglet
+  });
 
-// Ajouter les événements pour chaque bouton spécifique
-document.getElementById('share-twitter').addEventListener('click', function() {
-  shareOnSocialMedia(`https://twitter.com/intent/tweet?text=`);
-});
 
-document.getElementById('share-facebook').addEventListener('click', function() {
-  shareOnSocialMedia(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=`);
-});
-
-document.getElementById('share-linkedin').addEventListener('click', function() {
-  shareOnSocialMedia(`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}&title=Mon%20score%20sur%20le%20quiz&summary=`);
-});
-
-document.getElementById('share-whatsapp').addEventListener('click', function() {
-  shareOnSocialMedia(`https://api.whatsapp.com/send?text=`);
-});
-
-// Fonction pour masquer les options de partage après sélection
-function hideShareOptions() {
-  document.getElementById('share-options').style.display = 'none';
-}
-// Fonction pour masquer les options de partage après sélection
-function hideShareOptions() {
-  document.getElementById('share-options').style.display = 'none';
-}
 
 
  
@@ -601,38 +581,42 @@ doc.text(`Date et heure du téléchargement : ${currentDateTime}`, 10, yPosition
 yPosition += 10; // Espacement après la date et l'heure
     
     // Télécharger le fichier
-    doc.save("reponses_quiz.pdf");
+    doc.save("Mes_reponses_quiz_EHS_Montpellier_214.pdf");
 }
 
 
-// Fonction pour terminer le quiz
-function endQuiz() {
-  // Cacher le conteneur du quiz
-  document.getElementById('quiz-container').style.display = 'none';
 
-  // Afficher le conteneur des résultats
-  const resultContainer = document.getElementById('result-container');
-  resultContainer.style.display = 'block';
 
-  // Déplacer le bouton Quitter vers le conteneur des résultats
-  const quitButton = document.getElementById('quit-button');
-  if (quitButton) {
-      // Supprimer le bouton de son ancien parent s'il y est encore
-      quitButton.style.display = 'inline-block'; // Le rendre visible
-      resultContainer.appendChild(quitButton); // Le placer dans le conteneur des résultats
 
-      // Réattacher l'événement de clic après l'avoir déplacé
-      quitButton.removeEventListener('click', quitEmailHandler); // Supprimer l'événement précédent
-      quitButton.addEventListener('click', quitEmailHandler); // Ajouter l'événement de clic pour envoyer l'email
-  } else {
-      console.error("Bouton Quitter introuvable !");
-  }
-}
 
-// Fonction pour gérer l'envoi de l'email
-function quitEmailHandler() {
-  const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
-  window.location.href = mailtoLink; // Ouvre le client de messagerie pour envoyer l'email
+
+  
+
+  // Fonction pour terminer le quiz
+  function endQuiz() {
+    // Cacher le conteneur du quiz
+    document.getElementById('quiz-container').style.display = 'none';
+
+    // Afficher le conteneur des résultats
+    const resultContainer = document.getElementById('result-container');
+    resultContainer.style.display = 'block';
+
+    // Déplacer le bouton Quitter vers le conteneur des résultats
+    const quitButton = document.getElementById('quit-button');
+    if (quitButton) {
+        // Supprimer le bouton de son ancien parent s'il y est encore
+        quitButton.style.display = 'inline-block'; // Rendre le bouton visible
+        resultContainer.appendChild(quitButton); // Le placer dans le conteneur des résultats
+    } else {
+        console.error("Bouton Quitter introuvable !");
+    }
+
+    // Ajouter l'événement de clic au bouton (si pas déjà ajouté)
+    quitButton.addEventListener('click', function () {
+        const mailtoLink = `mailto:ehs215@primark.fr?subject=Votre avis sur le quiz&body=Bonjour,%0D%0A%0D%0AJe souhaite partager mon avis sur le quiz que je viens de faire.%0D%0A%0D%0A[Écrivez ici vos commentaires.]%0D%0A%0D%0AMerci !`;
+        window.location.href = mailtoLink;
+    });
+
 }
 
 
@@ -657,6 +641,8 @@ function disableOptions() {
     option.classList.add('disabled'); // Ajoute un style pour montrer qu'elles sont désactivées
   });
 }
+
+
 
 function updateProgressBar(targetValue) {
   // Validation de la valeur entre 0 et 100
